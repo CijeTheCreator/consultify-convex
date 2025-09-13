@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
-import { Github, Bell, Pill } from "lucide-react"
+import { Github, Pill } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
@@ -78,7 +78,7 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                   {/* Logo */}
                   <Link href={user?.type === 'DOCTOR' ? '/doctor-dashboard' : '/patient-dashboard'} className="flex items-center">
                     <Image
-                      src="/consultify-logo-tidb.png"
+                      src="/consultify-logo.svg"
                       alt="Consultify"
                       width={140}
                       height={32}
@@ -96,23 +96,11 @@ export default function Navbar({ user, onSignOut }: NavbarProps) {
                     variant="ghost"
                     size="sm"
                     className="text-cream hover:bg-sage-green/20 hover:text-cream p-2"
-                    onClick={() => window.open("https://github.com", "_blank")}
+                    onClick={() => window.open("https://github.com/CijeTheCreator/consultify-convex", "_blank")}
                   >
                     <Github className="w-5 h-5" />
                   </Button>
 
-                  {/* Notifications Bell */}
-                  {user && (
-                    <Link href="/notifications">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-cream hover:bg-sage-green/20 hover:text-cream p-2"
-                      >
-                        <Bell className="w-5 h-5" />
-                      </Button>
-                    </Link>
-                  )}
 
                   {/* Prescriptions Button - Only for Patients */}
                   {user && user.type === 'PATIENT' && (
