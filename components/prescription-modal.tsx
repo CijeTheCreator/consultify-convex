@@ -15,7 +15,6 @@ import {
 import { DatePicker } from "@/components/ui/date-picker"
 import { Plus, Trash2, Brain, Sparkles } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { PrescriptionModalService } from "@/lib/services"
 import type { PrescriptionAgentState, HelpersPrescription, HelpersConsultation, Message } from "@/lib/interfaces"
 
 interface Medication {
@@ -148,13 +147,13 @@ export default function PrescriptionModal({ isOpen, onClose, onSend, patientName
     setAiAnalysisComplete(false)
     setIsThinking(false)
     setPrescriptionAssistanceContent("")
-    
+
     // Clear polling interval
     if (pollingInterval) {
       clearInterval(pollingInterval)
       setPollingInterval(null)
     }
-    
+
     onClose()
   }
 
@@ -179,35 +178,6 @@ export default function PrescriptionModal({ isOpen, onClose, onSend, patientName
   }, [pollingInterval])
 
 
-  // Start real AI analysis process
-  const startAiAnalysis = async () => {
-    setShowAiAnalysis(true)
-    setAiAnalysisComplete(false)
-    setIsThinking(true)
-    setCurrentReasoning(DEFAULT_REASONING_STEPS)
-    setReasoningIndex(0)
-
-    try {
-      // Get conversation messages for the prescription agent
-      const conversation = await PrescriptionModalService.getConversationForPrescription(consultationId)
-      
-      // Prepare data for prescription agent
-      const prescriptionAgentData: PrescriptionAgentState = {
-        conversation,
-        consultation: { id: consultationId },
-      }
-
-      // Invoke the prescription agent
-      await PrescriptionModalService.invokePrescriptionAgent(prescriptionAgentData)
-
-      // Start polling for prescription assistance
-      startPolling()
-    } catch (error) {
-      console.error('Failed to start AI analysis:', error)
-      setIsThinking(false)
-      setShowAiAnalysis(false)
-    }
-  }
 
   // Convert database prescription to form medication
   const convertPrescriptionToMedication = (prescription: HelpersPrescription): Medication => {
@@ -221,48 +191,6 @@ export default function PrescriptionModal({ isOpen, onClose, onSend, patientName
   }
 
   // Start polling for prescription assistance, state, and prescriptions
-  const startPolling = () => {
-    const interval = setInterval(async () => {
-      try {
-        const { assistanceContent, assistanceState, prescriptions } = await PrescriptionModalService.getPrescriptionAssistanceData(consultationId)
-
-        // If assistance content is available, complete the analysis
-        if (assistanceContent) {
-          setPrescriptionAssistanceContent(assistanceContent)
-          setIsThinking(false)
-          setAiAnalysisComplete(true)
-          
-          // If prescriptions are also available, auto-populate the form
-          if (prescriptions && prescriptions.length > 0) {
-            const formMedications = prescriptions.map(convertPrescriptionToMedication)
-            setMedications(formMedications)
-          }
-          
-          // Clear polling
-          if (pollingInterval) {
-            clearInterval(pollingInterval)
-            setPollingInterval(null)
-          }
-          
-          // Stop current interval
-          clearInterval(interval)
-        } else {
-          // Update the current reasoning based on state only if we don't have final content yet
-          if (assistanceState) {
-            const stateMessages = assistanceState.split('\n').filter(line => line.trim())
-            if (stateMessages.length > 0) {
-              setCurrentReasoning(stateMessages)
-              setReasoningIndex(stateMessages.length - 1)
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error polling prescription data:', error)
-      }
-    }, 2000) // Poll every 2 seconds
-
-    setPollingInterval(interval)
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
