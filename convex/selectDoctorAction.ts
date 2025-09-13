@@ -5,9 +5,9 @@ import { Consultation as TypesConsultationState } from "./types";
 import { formatConversationHistory } from "../lib/utilities";
 import { SELECT_SPECIALIST_PROMPT, SELECTION_RATIONALE_PROMPT } from "../lib/prompts";
 import { ChatMistralAI } from "@langchain/mistralai";
-import { translatedToLanguage } from "@/workflows/translateMessageWorkflow";
 import { DoctorSelectionRationale, MedicalSpecialtyResponse } from "./llm_outputs";
 import { ConvexTypeGuards } from "@/lib/convex-services";
+import { translatedToLanguage } from "./translateMessageAction";
 
 const llm = new ChatMistralAI({
   model: "mistral-large-latest",
