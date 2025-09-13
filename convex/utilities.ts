@@ -1,8 +1,8 @@
 import { TranslatedMessage } from "./llm_outputs";
-import { ChatMistralAI } from "@langchain/mistralai";
 import { Message } from "./types";
 import { Consultation } from "@/lib/types";
 import { TRANSLATION_PROMPT } from "./prompts";
+import { ChatOpenAI } from "@langchain/openai";
 
 export function formatConversationHistory(conversation: any[], consultation: any): string {
   const formattedMessages: string[] = [];
@@ -27,9 +27,9 @@ export function formatConversationHistory(conversation: any[], consultation: any
 export async function translatedToLanguage(originalContent: string | undefined, translatedLanguage: string) {
   const adaptedTranslationPrompt = TRANSLATION_PROMPT.replace("[TARGET_LANGUAGE]", translatedLanguage).replace("[MESSAGE_CONTENT]", originalContent!)
 
-  const llm = new ChatMistralAI({
-    model: "mistral-large-latest",
-    apiKey: process.env.MISTRAL_API_KEY
+  const llm = new ChatOpenAI({
+    model: "gpt-4o-2024-08-06",
+    apiKey: process.env.OPENAI_API_KEY
   });
 
 

@@ -4,14 +4,14 @@ import { api } from "@/convex/_generated/api"
 import { Consultation as TypesConsultationState } from "./types";
 import { formatConversationHistory } from "../lib/utilities";
 import { SELECT_SPECIALIST_PROMPT, SELECTION_RATIONALE_PROMPT } from "../lib/prompts";
-import { ChatMistralAI } from "@langchain/mistralai";
+import { ChatOpenAI } from "@langchain/openai";
 import { DoctorSelectionRationale, MedicalSpecialtyResponse } from "./llm_outputs";
 import { ConvexTypeGuards } from "@/lib/convex-services";
 import { translatedToLanguage } from "./translateMessageAction";
 
-const llm = new ChatMistralAI({
-  model: "mistral-large-latest",
-  apiKey: process.env.MISTRAL_API_KEY
+const llm = new ChatOpenAI({
+  model: "gpt-4o-2024-08-06",
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 export const selectDoctorAction = action({

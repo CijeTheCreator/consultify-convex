@@ -22,7 +22,10 @@ importers:
         version: 3.10.0(react-hook-form@7.60.0(react@18.3.1))
       '@langchain/mistralai':
         specifier: ^0.2.2
-        version: 0.2.2(@langchain/core@0.3.78(@opentelemetry/api@1.9.0))
+        version: 0.2.2(@langchain/core@0.3.78(@opentelemetry/api@1.9.0)(openai@5.12.2(ws@8.18.3)(zod@3.25.74)))
+      '@langchain/openai':
+        specifier: ^0.6.14
+        version: 0.6.14(@langchain/core@0.3.78(@opentelemetry/api@1.9.0)(openai@5.12.2(ws@8.18.3)(zod@3.25.74)))(ws@8.18.3)
       '@mendable/firecrawl-js':
         specifier: ^4.3.7
         version: 4.3.7
@@ -1137,6 +1140,12 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       '@langchain/core': '>=0.3.58 <0.4.0'
+
+  '@langchain/openai@0.6.14':
+    resolution: {integrity: sha512-SM/xJOFDxT9NN/07fvhNB5dgAsIOQaLhmANxrRlSQ7Qs1zImMrzOvq+/5JP/ifpC/YxcgEnt4dblKVqvNU/C5A==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@langchain/core': '>=0.3.68 <0.4.0'
 
   '@levischuck/tiny-cbor@0.2.11':
     resolution: {integrity: sha512-llBRm4dT4Z89aRsm6u2oEZ8tfwL/2l6BwpZ7JcyieouniDECM5AqNgr/y08zalEIvW3RSK4upYyybDcmjXqAow==}
@@ -3638,6 +3647,18 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
+  openai@5.12.2:
+    resolution: {integrity: sha512-xqzHHQch5Tws5PcKR2xsZGX9xtch+JQFz5zb14dGqlshmmDAFBFEWmeIpf7wVqWV+w7Emj7jRgkNJakyKE0tYQ==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.23.8
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
+
   p-finally@1.0.0:
     resolution: {integrity: sha512-LICb2p9CB7FS+0eR1oqWnHhp0FljGLZCWBE9aix0Uye9W8LTQPwMTYVGWQWIw9RdQiDg4+epXQODwIYJtSJaow==}
     engines: {node: '>=4'}
@@ -5554,14 +5575,14 @@ snapshots:
 
   '@js-sdsl/ordered-map@4.4.2': {}
 
-  '@langchain/core@0.3.78(@opentelemetry/api@1.9.0)':
+  '@langchain/core@0.3.78(@opentelemetry/api@1.9.0)(openai@5.12.2(ws@8.18.3)(zod@3.25.74))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.21
-      langsmith: 0.3.71(@opentelemetry/api@1.9.0)
+      langsmith: 0.3.71(@opentelemetry/api@1.9.0)(openai@5.12.2(ws@8.18.3)(zod@3.25.74))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -5574,11 +5595,20 @@ snapshots:
       - '@opentelemetry/sdk-trace-base'
       - openai
 
-  '@langchain/mistralai@0.2.2(@langchain/core@0.3.78(@opentelemetry/api@1.9.0))':
+  '@langchain/mistralai@0.2.2(@langchain/core@0.3.78(@opentelemetry/api@1.9.0)(openai@5.12.2(ws@8.18.3)(zod@3.25.74)))':
     dependencies:
-      '@langchain/core': 0.3.78(@opentelemetry/api@1.9.0)
+      '@langchain/core': 0.3.78(@opentelemetry/api@1.9.0)(openai@5.12.2(ws@8.18.3)(zod@3.25.74))
       '@mistralai/mistralai': 1.10.0
       uuid: 10.0.0
+
+  '@langchain/openai@0.6.14(@langchain/core@0.3.78(@opentelemetry/api@1.9.0)(openai@5.12.2(ws@8.18.3)(zod@3.25.74)))(ws@8.18.3)':
+    dependencies:
+      '@langchain/core': 0.3.78(@opentelemetry/api@1.9.0)(openai@5.12.2(ws@8.18.3)(zod@3.25.74))
+      js-tiktoken: 1.0.21
+      openai: 5.12.2(ws@8.18.3)(zod@3.25.74)
+      zod: 3.25.74
+    transitivePeerDependencies:
+      - ws
 
   '@levischuck/tiny-cbor@0.2.11': {}
 
@@ -8070,7 +8100,7 @@ snapshots:
 
   kysely@0.28.7: {}
 
-  langsmith@0.3.71(@opentelemetry/api@1.9.0):
+  langsmith@0.3.71(@opentelemetry/api@1.9.0)(openai@5.12.2(ws@8.18.3)(zod@3.25.74)):
     dependencies:
       '@types/uuid': 10.0.0
       chalk: 4.1.2
@@ -8081,6 +8111,7 @@ snapshots:
       uuid: 10.0.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.0
+      openai: 5.12.2(ws@8.18.3)(zod@3.25.74)
 
   leac@0.6.0: {}
 
@@ -8283,6 +8314,11 @@ snapshots:
       define-lazy-prop: 2.0.0
       is-docker: 2.2.1
       is-wsl: 2.2.0
+
+  openai@5.12.2(ws@8.18.3)(zod@3.25.74):
+    optionalDependencies:
+      ws: 8.18.3
+      zod: 3.25.74
 
   p-finally@1.0.0: {}
 

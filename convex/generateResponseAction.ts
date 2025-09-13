@@ -3,16 +3,16 @@ import { v } from "convex/values";
 import { api } from "@/convex/_generated/api";
 import { ConsultationState } from "@/convex/schema";
 import { ConsultationState as TypesConsultationState } from "./types";
-import { ChatMistralAI } from "@langchain/mistralai";
 import { formatConversationHistory, translatedToLanguage } from "./utilities";
 import { GeneratedMessage, QueryGeneration } from "./llm_outputs";
 import { GENERATE_MESSAGE_PROMPT, GENERATE_QUERY_PROMPT } from "./prompts";
 import { ConvexTypeGuards } from "@/lib/convex-services";
 import Firecrawl from '@mendable/firecrawl-js';
+import { ChatOpenAI } from "@langchain/openai";
 
-const llm = new ChatMistralAI({
-  model: "mistral-large-latest",
-  apiKey: process.env.MISTRAL_API_KEY
+const llm = new ChatOpenAI({
+  model: "gpt-4o-2024-08-06",
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 export const generateResponseAction = action({
@@ -159,7 +159,7 @@ async function retrieveDataFromFireCrawl(query: string) {
   const data = await response.json();
 
   if (data.success && data.data?.web?.length > 0) {
-    return data.data.web.map((result: any) => 
+    return data.data.web.map((result: any) =>
       `**${result.title}**\n${result.description}\nURL: ${result.url}`
     ).join('\n\n');
   }
