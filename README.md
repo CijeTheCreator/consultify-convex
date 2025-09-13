@@ -5,7 +5,7 @@ A multilingual healthcare consultation platform with AI-powered triage and real-
 ## Features
 
 - **AI Triage System**: Automated patient symptom assessment and doctor selection
-- **Real-time Translation**: Multi-language support (EN/FR) for patient-doctor communication
+- **Real-time Translation**: Multi-language support for patient-doctor communication
 - **Prescription Management**: Digital prescriptions with automated email reminders
 - **Secure Authentication**: BetterAuth + Convex integration
 - **Real-time Chat**: Live consultation interface with translation indicators
